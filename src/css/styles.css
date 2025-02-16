@@ -31,13 +31,16 @@ main {
   text-align: center;
 }
 
+form {
+  margin-bottom: 40px;
+}
 .input-search {
   font-family: 'Montserrat', sans-serif;
   width: 240px;
   height: 20px;
   border-radius: 4px;
   background: #fff;
-  border: solid #808080;
+  border: 0.5px solid #808080;
   font-weight: 400;
   font-size: 16px;
   line-height: 150%;
@@ -47,11 +50,11 @@ main {
 }
 
 .input-search:hover {
-  border: solid #000000;
+  border: 0.5px solid #000000;
 }
 
 .input-search:focus {
-  border: solid #4e75ff;
+  border: 0.5px solid #4e75ff;
 }
 
 .search-btn {
@@ -65,11 +68,13 @@ main {
   border-radius: 8px;
   padding: 8px 16px;
   text-align: center;
+  border: 0.5px solid #4e75ff;
   background-color: #4e75ff;
 }
 
 .search-btn:hover {
   background-color: #6c8cff;
+  border: 0.5px solid #000000;
 }
 
 .loader {
@@ -108,18 +113,18 @@ main {
   flex-wrap: wrap;
   column-gap: 24px;
   row-gap: 24px;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 
 .gallery-item {
-  width: 360px;
-  height: 220px;
-  border: 1px solid #808080;
+  width: calc((1920px - 4 * 24px) / 5);
+  height: auto;
 }
 
 .li-img {
-  width: 360px;
+  width: 100%;
   height: 160px;
-  margin-bottom: 4px;
   object-fit: cover;
 }
 
