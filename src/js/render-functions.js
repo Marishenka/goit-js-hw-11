@@ -1,8 +1,12 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+let lightbox;
+
 export function ShowGLR(arrPict, tagGallery) {
   const gallery = document.querySelector(tagGallery);
+
+  gallery.innerHTML = '';
 
   const markup = arrPict
     .map(
@@ -11,30 +15,26 @@ export function ShowGLR(arrPict, tagGallery) {
             <a class='gallery-link' href="${image.largeImageURL}">
               <img class="li-img"
               src="${image.webformatURL}" 
-              alt="${image.tags}/> 
+              alt="${image.tags}"/> 
               <div class="li-text">
                 <table class="table">
-                    <tr><td>Likes</td><td>Views</td><td>Comment</td><td>Downloads</tr>
-                    <tr><td>>${image.likes}</td><td>${image.views}</td><td>${image.comments}</td><td>${image.downloads}</tr>
+                    <tr><td>Likes</td><td>Views</td><td>Comment</td><td>Downloads</td></tr>
+                    <tr><td>${image.likes}</td><td>${image.views}</td><td>${image.comments}</td><td>${image.downloads}</td></tr>
                 </table>
-
-              
-          
-              
-              
-                </div>
-              </a>
-            </li>
-            
-    `
+              </div>
+            </a>
+        </li>`
     )
     .join('');
 
   gallery.insertAdjacentHTML('afterbegin', markup);
 
-  const lightbox = new SimpleLightbox(tagGallery + ' a', {
-    captionsData: 'alt',
-    captionDelay: 250,
-  });
-  lightbox.refresh();
+  if (!lightbox) {
+    lightbox = new SimpleLightbox(tagGallery + ' a', {
+      captionsData: 'alt',
+      captionDelay: 250,
+    });
+  } else {
+    lightbox.refresh();
+  }
 }
