@@ -1,11 +1,12 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 let lightbox;
+const gallery = document.querySelector('.gallery');
 
-export function ShowGLR(arrPict, tagGallery) {
-  const gallery = document.querySelector(tagGallery);
-
+export function ShowGLR(arrPict) {
   gallery.innerHTML = '';
 
   const markup = arrPict
@@ -30,11 +31,26 @@ export function ShowGLR(arrPict, tagGallery) {
   gallery.insertAdjacentHTML('afterbegin', markup);
 
   if (!lightbox) {
-    lightbox = new SimpleLightbox(tagGallery + ' a', {
+    lightbox = new SimpleLightbox('.gallery a', {
       captionsData: 'alt',
       captionDelay: 250,
     });
   } else {
     lightbox.refresh();
   }
+}
+
+export function ClearGallery() {
+  gallery.innerHTML = '';
+}
+
+export function ShowErrorMessage() {
+  ClearGallery();
+  iziToast.show({
+    position: 'topRight',
+    message:
+      'Sorry, there are no images matching your search query. Please try again!',
+    messageColor: 'white',
+    backgroundColor: '#EF4040',
+  });
 }
