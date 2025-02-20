@@ -12,6 +12,9 @@ export function getImg(searchName) {
     safesearch: 'true',
   });
 
-  const url = baseUrl + endPoint + `?${params}`;
-  return axios.get(url);
+  const url = `${baseUrl}${endPoint}?${params}`;
+
+  return axios.get(url, {
+    validateStatus: status => status < 500,
+  });
 }

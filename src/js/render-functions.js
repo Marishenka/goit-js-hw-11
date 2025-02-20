@@ -6,7 +6,7 @@ import 'izitoast/dist/css/iziToast.min.css';
 let lightbox;
 const gallery = document.querySelector('.gallery');
 
-export function ShowGLR(arrPict) {
+export function showGLR(arrPict) {
   gallery.innerHTML = '';
 
   const markup = arrPict
@@ -40,12 +40,12 @@ export function ShowGLR(arrPict) {
   }
 }
 
-export function ClearGallery() {
+export function clearGallery() {
   gallery.innerHTML = '';
 }
 
-export function ShowErrorMessage() {
-  ClearGallery();
+export function showErrorMessage() {
+  clearGallery();
   iziToast.show({
     position: 'topRight',
     message:

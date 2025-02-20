@@ -1,49 +1,65 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import { getImg } from './js/pixabay-api';
-import { ShowGLR, ClearGallery, ShowErrorMessage } from './js/render-functions';
+import { showGLR, showErrorMessage } from './js/render-functions';
 
 export const form = document.querySelector('.form');
 const input = document.querySelector('.input-search');
 const waitMsg = document.querySelector('.wait-msg');
 
-form.addEventListener('submit', e => {
+form.addEventListener('submit', handleSubmit);
+
+function handleSubmit(e) {
   e.preventDefault();
 
-  let searchName = input.value.trim();
-
-  if (!searchName) {
-    iziToast.show({
-      backgroundColor: 'rgba(239, 64, 64, 1)',
-      messageColor: `rgba(255, 255, 255, 1)`,
-      close: `true`,
-      position: 'topRight',
-      title: 'Error',
-      titleColor: '#fff',
-      titleSize: '16px',
-      message: 'Input search string',
-    });
+  const searchText = input.value.trim();
+  if (!searchText) {
+    showErrorToast('Input search string');
     return;
   }
 
-  waitMsg.innerHTML =
-    '"Wait, the image is loaded" <span class="loader"></span>';
+  input.value = '';
+  showLoader();
 
-  getImg(searchName)
+  getImg(searchText)
     .then(response => {
-      if (response.data.hits.length === 0) {
-        ShowErrorMessage();
-      } else {
-        ShowGLR(response.data.hits);
+      if (!response.data || !Array.isArray(response.data.hits)) {
+        throw new Error('Unexpected API response');
       }
+      handleSearchResults(response.data.hits);
     })
     .catch(error => {
-      waitMsg.textContent = 'Ups ...';
       console.error(error);
+      showErrorToast('Failed to load images. Try again later.');
     })
-    .finally(() => {
-      waitMsg.textContent = '';
-    });
+    .finally(hideLoader);
+}
 
-  form.reset();
-});
+function handleSearchResults(images) {
+  if (!images.length) {
+    showErrorMessage();
+    return;
+  }
+  showGLR(images);
+}
+
+function showLoader() {
+  waitMsg.innerHTML = 'Loading... <span class="loader"></span>';
+}
+
+function hideLoader() {
+  waitMsg.textContent = '';
+}
+
+function showErrorToast(message) {
+  iziToast.show({
+    backgroundColor: '#EF4040',
+    messageColor: '#fff',
+    close: true,
+    position: 'topRight',
+    title: 'Error',
+    titleColor: '#fff',
+    titleSize: '16px',
+    message,
+  });
+}
