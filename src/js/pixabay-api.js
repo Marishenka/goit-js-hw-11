@@ -5,7 +5,7 @@ const endPoint = '/api';
 
 export function getImg(searchName) {
   const params = new URLSearchParams({
-    key: '48827773-420cc6a3931f90379a2431d96',
+    key: '48962354-d02229266f1321f72919e6f30',
     q: searchName,
     image_type: 'photo',
     orientation: 'horizontal',
